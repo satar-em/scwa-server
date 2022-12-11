@@ -87,7 +87,7 @@ public class User {
     }
 
     public enum StatusType {
-        Waiting, Ready, Sleeping
+        Waiting, Ready, Sleeping,NewJoin
     }
 
     public class ConnectedUser {
