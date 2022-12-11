@@ -34,9 +34,16 @@ public class UserConnector {
                 onMessageCtrl.handleRequestToChatWithMe(session, message);
                 break;
             case "ConnectToChatWithMe":
-                onMessageCtrl.handleConnectToChatWithMe(session, message);
+                if (message.getUserType().equals("admin"))
+                    onMessageCtrl.handleConnectToChatWithMe(session, message);
                 break;
-
+            case "ChatWithEach":
+                onMessageCtrl.handleChatWithEach(session, message);
+                break;
+            case "DisconnectUserFromChat":
+                if (message.getUserType().equals("admin"))
+                    onMessageCtrl.handleDisconnectUserFromChat(session, message);
+                break;
         }
     }
 

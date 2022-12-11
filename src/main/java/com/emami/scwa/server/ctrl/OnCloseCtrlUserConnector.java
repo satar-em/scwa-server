@@ -21,6 +21,6 @@ public class OnCloseCtrlUserConnector {
     }
 
     public void handleLeftToServer(Session session) {
-
+        userRepository.removeUser(userRepository.find(session.getId()));
     }
 }

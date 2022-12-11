@@ -47,11 +47,41 @@ public class OnMessageCtrlUserConnector {
     public void handleConnectToChatWithMe(Session session, Message message) {
         User userAccept = userRepository.find(session.getId());
         User userWaiter = userRepository.find(message.getContent());
+        userRepository.connectToEach(userAccept, userWaiter);
         Message messageForUserAccept = new Message("SuccessConnectToEach", userAccept.getType(), "server", userAccept.getId(), userWaiter.getId(), null);
         Message messageForUserWaiter = new Message("SuccessConnectToEach", userWaiter.getType(), "server", userWaiter.getId(), userAccept.getId(), null);
         try {
             userAccept.getSession().getBasicRemote().sendObject(messageForUserAccept);
             userWaiter.getSession().getBasicRemote().sendObject(messageForUserWaiter);
+        } catch (Exception e) {
+            System.out.print("");
+        }
+    }
+
+    public void handleChatWithEach(Session session, Message message) {
+        User userSender = userRepository.find(session.getId());
+        User userReceiver = userRepository.find(message.getTo());
+        Message ChatToEach = new Message("ChatWithEach", message.getUserType(), message.getFrom(), message.getTo(), message.getContent(), null);
+        try {
+            userSender.getSession().getBasicRemote().sendObject(ChatToEach);
+            userReceiver.getSession().getBasicRemote().sendObject(ChatToEach);
+        } catch (Exception e) {
+            System.out.print("");
+        }
+    }
+
+    public void handleDisconnectUserFromChat(Session session, Message message) {
+        User userForDisconnect = userRepository.find(message.getContent());
+        User userConnectWithUserDisconnect = userForDisconnect.getConnectedUser();
+        Message messageForUserForDisconnect = new Message("DisconnectFromChat", userForDisconnect.getType(), "server", userForDisconnect.getId(), "you disconnect from chat", null);
+        Message messageForUserConnectWithUserDisconnect = new Message("DisconnectFromChat", userConnectWithUserDisconnect.getType(), "server", userConnectWithUserDisconnect.getId(), "you disconnect from chat", null);
+        Message messageForUserSetAction = new Message("AcceptDisconnectFromChat", message.getUserType(), "server", session.getId(), message.getContent(), null);
+        userRepository.disconnectToEach(userForDisconnect);
+        try {
+            userForDisconnect.getSession().getBasicRemote().sendObject(messageForUserForDisconnect);
+            userConnectWithUserDisconnect.getSession().getBasicRemote().sendObject(messageForUserConnectWithUserDisconnect);
+            session.getBasicRemote().sendObject(messageForUserSetAction);
+            userForDisconnect.getSession().close();
         } catch (Exception e) {
             System.out.print("");
         }
