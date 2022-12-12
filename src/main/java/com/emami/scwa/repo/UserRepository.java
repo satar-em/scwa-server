@@ -50,6 +50,14 @@ public class UserRepository {
         });
         return users;
     }
+    public List<User> findByType(String userType) {
+        List<User> users = new ArrayList<>();
+        userList.forEach(user1 -> {
+            if (user1.getType().equals(userType))
+                users.add(user1);
+        });
+        return users;
+    }
 
     public void connectToEach(User user1, User user2) {
         if (user1 == null || user2 == null) return;

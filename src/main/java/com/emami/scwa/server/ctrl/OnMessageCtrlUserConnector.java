@@ -3,6 +3,7 @@ package com.emami.scwa.server.ctrl;
 import com.emami.scwa.model.Message;
 import com.emami.scwa.model.User;
 import com.emami.scwa.repo.UserRepository;
+import org.jetbrains.annotations.NotNull;
 
 import javax.websocket.Session;
 
