@@ -1,6 +1,5 @@
 package com.emami.scwa.model;
 
-import javax.websocket.Session;
 
 public class Message {
     private String messageType;

@@ -7,10 +7,8 @@ import com.emami.scwa.repo.UserRepository;
 import com.emami.scwa.server.auth.AuthenticationService;
 import com.emami.scwa.server.ctrl.OnCloseCtrlUserConnector;
 import com.emami.scwa.server.ctrl.OnMessageCtrlUserConnector;
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+
+import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint(value = "/chat-user", encoders = MessageEncoder.class, decoders = MessageDecoder.class)
@@ -55,7 +53,15 @@ public class UserConnector {
 
     @OnClose
     public void onClose(Session session) throws Exception {
-        onCloseCtrl.handleLeftToServer(session);
+        try {
+            onCloseCtrl.handleLeftToServer(session);
+        }catch (Exception e){
+            System.out.print("");
+        }
+    }
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        System.out.print("");
     }
 
     public void broadcastServerStatusUpdate() {

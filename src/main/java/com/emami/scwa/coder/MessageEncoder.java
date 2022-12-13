@@ -23,4 +23,5 @@ public class MessageEncoder implements Encoder.Text<Message> {
     public void destroy() {
 
     }
+
 }

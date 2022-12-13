@@ -3,8 +3,6 @@ package com.emami.scwa.server.ctrl;
 import com.emami.scwa.model.Message;
 import com.emami.scwa.model.User;
 import com.emami.scwa.repo.UserRepository;
-import org.jetbrains.annotations.NotNull;
-
 import javax.websocket.Session;
 
 public class OnMessageCtrlUserConnector {
@@ -35,6 +33,8 @@ public class OnMessageCtrlUserConnector {
     public void handleRequestToChatWithMe(Session session, Message message) {
         User userWaiter = userRepository.find(session.getId());
         if (userWaiter == null) return;
+        if (userWaiter.getStatusType().equals(User.StatusType.Waiting))
+            return;
         userWaiter.setStatusType(User.StatusType.Waiting);
         userRepository.save(userWaiter);
         Message messageForUserJoinServer = new Message("acceptRequestToChatWithMe", message.getUserType(), "server", session.getId(), "we are looking for admin for you", message.getAuthentication());

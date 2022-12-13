@@ -61,6 +61,8 @@ public class UserRepository {
 
     public void connectToEach(User user1, User user2) {
         if (user1 == null || user2 == null) return;
+        user1.setStatusType(User.StatusType.Talking);
+        user2.setStatusType(User.StatusType.Talking);
         user1.setConnectedUser(user2);
         user2.setConnectedUser(user1);
     }
@@ -68,6 +70,8 @@ public class UserRepository {
     public void disconnectToEach(User user) {
         User user2 = user.getConnectedUser();
         if (user2 == null) return;
+        user.setStatusType(User.StatusType.Ready);
+        user2.setStatusType(User.StatusType.Ready);
         user.setConnectedUser(null);
         user2.setConnectedUser(null);
         userList.removeIf(user1 -> user1.getId().equals(user.getId()) || user1.getId().equals(user2.getId()));
