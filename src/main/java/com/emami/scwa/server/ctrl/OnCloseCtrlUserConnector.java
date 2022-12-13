@@ -21,6 +21,13 @@ public class OnCloseCtrlUserConnector {
     }
 
     public void handleLeftToServer(Session session) {
+        Message message = new Message();
+        message.setContent("goodbye bro :)");
+        try {
+            session.getBasicRemote().sendObject(message);
+        } catch (Exception e) {
+            System.out.print("");
+        }
         userRepository.removeUser(userRepository.find(session.getId()));
     }
 }
