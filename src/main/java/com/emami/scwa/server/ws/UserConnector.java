@@ -20,6 +20,8 @@ public class UserConnector {
     @OnOpen
     public void onOpen(Session session) throws Exception {
         System.out.print("");
+        Message message=new Message("SetClientId","","server",session.getId(),"","");
+        session.getBasicRemote().sendObject(message);
     }
 
     @OnMessage
