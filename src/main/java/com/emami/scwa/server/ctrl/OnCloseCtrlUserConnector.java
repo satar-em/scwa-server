@@ -21,8 +21,7 @@ public class OnCloseCtrlUserConnector {
     }
 
     public void handleLeftToServer(Session session) {
-        Message message = new Message();
-        message.setContent("goodbye bro :)");
+        Message message = new Message("Goodbye","","server",session.getId(),"goodbye bro :)","");
         try {
             session.getBasicRemote().sendObject(message);
         } catch (Exception e) {

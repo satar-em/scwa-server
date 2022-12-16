@@ -69,7 +69,7 @@ public class UserConnector {
     public void broadcastServerStatusUpdate() {
         userRepository.findByType("admin").forEach(user -> {
             try {
-                user.getSession().getBasicRemote().sendObject(new Message("serverUpdate", user.getType(), "server", user.getId(), "server has bean update", null));
+                user.getSession().getBasicRemote().sendObject(new Message("serverUpdate", user.getType(), "server", user.getId(), "server has bean update", ""));
             } catch (Exception e) {
                 System.out.print("");
             }

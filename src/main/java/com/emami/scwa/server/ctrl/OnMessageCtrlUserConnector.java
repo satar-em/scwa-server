@@ -22,7 +22,7 @@ public class OnMessageCtrlUserConnector {
     public void handleJoinToServer(Session session, Message message) {
         User user = new User(session.getId(), message.getContent(), message.getUserType(), session, null, User.StatusType.NewJoin);
         userRepository.save(user);
-        Message messageForUserJoinServer = new Message("acceptJoin", message.getUserType(), "server", session.getId(), "welcome to server , dear " + message.getContent() + " <3", message.getAuthentication());
+        Message messageForUserJoinServer = new Message("AcceptJoin", message.getUserType(), "server", session.getId(), "welcome to server , dear " + message.getContent() + " <3", message.getAuthentication());
         try {
             session.getBasicRemote().sendObject(messageForUserJoinServer);
         } catch (Exception e) {
@@ -49,8 +49,8 @@ public class OnMessageCtrlUserConnector {
         User userAccept = userRepository.find(session.getId());
         User userWaiter = userRepository.find(message.getContent());
         userRepository.connectToEach(userAccept, userWaiter);
-        Message messageForUserAccept = new Message("SuccessConnectToEach", userAccept.getType(), "server", userAccept.getId(), userWaiter.getId(), null);
-        Message messageForUserWaiter = new Message("SuccessConnectToEach", userWaiter.getType(), "server", userWaiter.getId(), userAccept.getId(), null);
+        Message messageForUserAccept = new Message("SuccessConnectToEach", userAccept.getType(), "server", userAccept.getId(), userWaiter.getId(), "");
+        Message messageForUserWaiter = new Message("SuccessConnectToEach", userWaiter.getType(), "server", userWaiter.getId(), userAccept.getId(), "");
         try {
             userAccept.getSession().getBasicRemote().sendObject(messageForUserAccept);
             userWaiter.getSession().getBasicRemote().sendObject(messageForUserWaiter);
@@ -62,7 +62,7 @@ public class OnMessageCtrlUserConnector {
     public void handleChatWithEach(Session session, Message message) {
         User userSender = userRepository.find(session.getId());
         User userReceiver = userRepository.find(message.getTo());
-        Message ChatToEach = new Message("ChatWithEach", message.getUserType(), message.getFrom(), message.getTo(), message.getContent(), null);
+        Message ChatToEach = new Message("ChatWithEach", message.getUserType(), message.getFrom(), message.getTo(), message.getContent(), "");
         try {
             userSender.getSession().getBasicRemote().sendObject(ChatToEach);
             userReceiver.getSession().getBasicRemote().sendObject(ChatToEach);
@@ -74,9 +74,9 @@ public class OnMessageCtrlUserConnector {
     public void handleDisconnectUserFromChat(Session session, Message message) {
         User userForDisconnect = userRepository.find(message.getContent());
         User userConnectWithUserDisconnect = userForDisconnect.getConnectedUser();
-        Message messageForUserForDisconnect = new Message("DisconnectFromChat", userForDisconnect.getType(), "server", userForDisconnect.getId(), "you disconnect from chat", null);
-        Message messageForUserConnectWithUserDisconnect = new Message("DisconnectFromChat", userConnectWithUserDisconnect.getType(), "server", userConnectWithUserDisconnect.getId(), "you disconnect from chat", null);
-        Message messageForUserSetAction = new Message("AcceptDisconnectFromChat", message.getUserType(), "server", session.getId(), message.getContent(), null);
+        Message messageForUserForDisconnect = new Message("DisconnectFromChat", userForDisconnect.getType(), "server", userForDisconnect.getId(), "you disconnect from chat", "");
+        Message messageForUserConnectWithUserDisconnect = new Message("DisconnectFromChat", userConnectWithUserDisconnect.getType(), "server", userConnectWithUserDisconnect.getId(), "you disconnect from chat", "");
+        Message messageForUserSetAction = new Message("AcceptDisconnectFromChat", message.getUserType(), "server", session.getId(), message.getContent(), "");
         userRepository.disconnectToEach(userForDisconnect);
         try {
             userForDisconnect.getSession().getBasicRemote().sendObject(messageForUserForDisconnect);

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class Test1 {
     @Test
     public void testMessageGson(){
-        Message message=new Message("messageType","userType","from","to","content","authen");
+        Message message=new Message("messageType","userType","from","to","content","auth");
         Gson gson=new Gson();
         System.out.println(gson.toJson(message));
     }
