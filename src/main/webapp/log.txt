@@ -1,1 +1,12 @@
 {"messageType":"messageType","userType":"userType","from":"from","to":"to","content":"content","authentication":"authen"}
+        Message message = new Message("Goodbye","","server",session.getId(),"goodbye bro :)","");
+        Message messageForUserJoinServer = new Message("AcceptJoin", message.getUserType(), "server", session.getId(), "welcome to server , dear " + message.getContent() + " <3", message.getAuthentication());
+        Message messageForUserJoinServer = new Message("acceptRequestToChatWithMe", message.getUserType(), "server", session.getId(), "we are looking for admin for you", message.getAuthentication());
+        Message messageForUserAccept = new Message("SuccessConnectToEach", userAccept.getType(), "server", userAccept.getId(), userWaiter.getId(), "");
+        Message messageForUserWaiter = new Message("SuccessConnectToEach", userWaiter.getType(), "server", userWaiter.getId(), userAccept.getId(), "");
+        Message ChatToEach = new Message("ChatWithEach", message.getUserType(), message.getFrom(), message.getTo(), message.getContent(), "");
+        Message messageForUserForDisconnect = new Message("DisconnectFromChat", userForDisconnect.getType(), "server", userForDisconnect.getId(), "you disconnect from chat", "");
+        Message messageForUserConnectWithUserDisconnect = new Message("DisconnectFromChat", userConnectWithUserDisconnect.getType(), "server", userConnectWithUserDisconnect.getId(), "you disconnect from chat", "");
+        Message messageForUserSetAction = new Message("AcceptDisconnectFromChat", message.getUserType(), "server", session.getId(), message.getContent(), "");
+        Message message=new Message("SetClientId","","server",session.getId(),"","");
+        new Message("serverUpdate", user.getType(), "server", user.getId(), "server has bean update", "");
