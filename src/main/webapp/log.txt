@@ -1,4 +1,6 @@
 {"messageType":"messageType","userType":"userType","from":"from","to":"to","content":"content","authentication":"authen"}
+{"messageType":"JoinToServer","userType":"normal","from":"","to":"","content":"Satar Emami","authentication":""}
+{"messageType":"JoinToServer","userType":"admin","from":"","to":"","content":"Mohammad Emami","authentication":"admin-Satar"}
         Message message = new Message("Goodbye","","server",session.getId(),"goodbye bro :)","");
         Message messageForUserJoinServer = new Message("AcceptJoin", message.getUserType(), "server", session.getId(), "welcome to server , dear " + message.getContent() + " <3", message.getAuthentication());
         Message messageForUserJoinServer = new Message("acceptRequestToChatWithMe", message.getUserType(), "server", session.getId(), "we are looking for admin for you", message.getAuthentication());
