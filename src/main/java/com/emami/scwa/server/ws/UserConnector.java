@@ -3,6 +3,7 @@ package com.emami.scwa.server.ws;
 import com.emami.scwa.coder.MessageDecoder;
 import com.emami.scwa.coder.MessageEncoder;
 import com.emami.scwa.model.Message;
+import com.emami.scwa.model.User;
 import com.emami.scwa.repo.UserRepository;
 import com.emami.scwa.server.auth.AuthenticationService;
 import com.emami.scwa.server.ctrl.OnCloseCtrlUserConnector;
@@ -20,12 +21,12 @@ public class UserConnector {
     @OnOpen
     public void onOpen(Session session) throws Exception {
         System.out.print("");
-        Message message=new Message("SetClientId","","server",session.getId(),"","");
+        Message message = new Message("SetClientId", "", "server", session.getId(), "", "");
         session.getBasicRemote().sendObject(message);
     }
 
     @OnMessage
-    public void onMessage(Session session,Message message) throws Exception {
+    public void onMessage(Session session, Message message) throws Exception {
         if (message.getUserType().equals("admin"))
             if (!AuthenticationService.getInstance().checkForAdmin(message.getAuthentication())) return;
         switch (message.getMessageType()) {
@@ -56,11 +57,18 @@ public class UserConnector {
     @OnClose
     public void onClose(Session session) throws Exception {
         try {
+            User connectedUser=userRepository.find(session.getId()).getConnectedUser();
+            if (connectedUser!=null){
+                Message message=new Message("disconnectUserFromServer",connectedUser.getType(),"server",connectedUser.getId(),userRepository.find(session.getId()).getName()+" leave server","");
+                connectedUser.getSession().getBasicRemote().sendObject(message);
+            }
+
             onCloseCtrl.handleLeftToServer(session);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.print("");
         }
     }
+
     @OnError
     public void onError(Session session, Throwable throwable) {
         System.out.print("");
